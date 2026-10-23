@@ -1,0 +1,62 @@
+
+### 1. Создать пользователя
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Иван Иванов",
+  "email": "ivan@example.com"
+}
+
+### 2. Создать поставщика
+POST http://localhost:8080/api/suppliers
+Content-Type: application/json
+
+{
+  "name": "ООО «ТехноПром»",
+  "category": "Оборудование",
+  "isApproved": true
+}
+
+### 3. Создать заявку на закупку (ссылается на User с id = 1)
+POST http://localhost:8080/api/purchase-requests
+Content-Type: application/json
+
+{
+  "author": {
+    "id": 1
+  },
+  "description": "Покупка серверного оборудования",
+  "limitAmount": 150000.0,
+  "status": "NEW"
+}
+
+### 4. Создать коммерческое предложение (ссылается на заявку и поставщика с id = 1)
+POST http://localhost:8080/api/commercial-offers
+Content-Type: application/json
+
+{
+  "purchaseRequest": {
+    "id": 1
+  },
+  "supplier": {
+    "id": 1
+  },
+  "price": 140000.0,
+  "deliveryTerm": "5 дней",
+  "validityPeriod": "30 дней"
+}
+
+### 5. Создать закупочный заказ (ссылается на заявку и коммерческое предложение с id = 1)
+POST http://localhost:8080/api/purchase-orders
+Content-Type: application/json
+
+{
+  "purchaseRequest": {
+    "id": 1
+  },
+  "commercialOffer": {
+    "id": 1
+  },
+  "status": "CREATED"
+}
